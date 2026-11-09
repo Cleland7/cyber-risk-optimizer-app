@@ -6,9 +6,20 @@ rng = random.Random(7)
 
 model = {
  "assumptions": {"version": "2026.11-a", "seed": 42, "mc_iterations": 10000,
-   "score_k": 120.0, "signal_min_level": 7, "alerts_for_max_signal": 10, "exposure_ref": 250000, "weight_vuln": 0.6, "high_alert_level": 10, "alerts_for_max_multiplier": 5,
-   "sle_aro_source": "DECLARED placeholders: replace with cited IBM/Verizon-anchored ranges",
+   "score_k": 120.0, "signal_min_level": 7, "alerts_for_max_signal": 10, "exposure_ref": 1500000, "sle_scale": 1.0, "weight_vuln": 0.6, "high_alert_level": 10, "alerts_for_max_multiplier": 5,
+   "sle_aro_source": "SLE anchored to cited benchmarks where marked Cited; ARO (frequency) is DECLARED for every scenario (no public per-organisation source)",
    "effectiveness_source": "DECLARED analyst judgement; sensitivity-tested at +/-20%"},
+
+ "sources": [
+  {"id": "S1", "claim": "Global average data breach cost USD 4.99M (2026), up 12%", "source": "IBM Cost of a Data Breach Report 2026", "url": "https://www.ibm.com/reports/data-breach", "status": "Primary page seen"},
+  {"id": "S2", "claim": "Breaches over 200 days cost USD 5.65M vs 4.32M under 200 days; AI-enabled breaches about USD 6M", "source": "IBM 2026 as reported by secondary sites (deepstrike.io, IBM newsroom)", "url": "https://newsroom.ibm.com/campaign?item=2889", "status": "Verify the 4.32M/5.65M split in the IBM report"},
+  {"id": "S3", "claim": "Median ransom paid USD 139,875 (2026), 69% of victims did not pay; ransomware in 48% of breaches", "source": "Verizon 2026 DBIR as reported by securitypointbreak.com", "url": "https://securitypointbreak.com/2026/05/20/verizon-2026-dbir-biggest-security-shifts/", "status": "Secondary; verify in the DBIR. One site quotes a different median (115,000), so confirm."},
+  {"id": "S4", "claim": "Mean ransomware recovery cost excluding ransom USD 1.7M (2026)", "source": "Sophos State of Ransomware 2026 as reported by stingrai.io", "url": "https://www.stingrai.io/blog/ransomware-statistics-2026", "status": "Secondary; verify in the Sophos report"},
+  {"id": "S5", "claim": "Median ransom payment USD 769,000 (2026 survey)", "source": "Sophos State of Ransomware 2026 as reported by usecarly.com", "url": "https://www.usecarly.com/blog/ransomware-statistics/", "status": "Secondary; verify in the Sophos report"},
+  {"id": "S6", "claim": "BEC: USD 3.05B reported losses across 24,768 complaints in 2025 (derived average about USD 123,000)", "source": "FBI IC3 2025 Internet Crime Report", "url": "https://www.ic3.gov/annualreport/reports", "status": "Figures via secondary summaries; derived average is my division, verify against the report"},
+  {"id": "S7", "claim": "Average reported loss across all IC3 complaints USD 20,699 (2025)", "source": "FBI IC3 2025 Internet Crime Report", "url": "https://www.ic3.gov/annualreport/reports", "status": "Figures via secondary summaries"},
+  {"id": "S8", "claim": "Vulnerability exploitation is the top initial access vector (31%); median 43 days to fully fix a CISA KEV vulnerability", "source": "Verizon 2026 DBIR (via SecurityWeek, Stingrai)", "url": "https://www.securityweek.com/verizon-dbir-2026-vulnerability-exploitation-overtakes-credential-theft-as-top-breach-vector/", "status": "Context for patching priority; not a model input"}
+ ],
  "assets": [
   {"name": "DC01", "role": "Windows domain controller", "criticality": 5},
   {"name": "DB01", "role": "Customer database", "criticality": 5},
@@ -28,11 +39,11 @@ model = {
   {"id": "F-009", "asset": "DC01", "title": "SMB signing not enforced", "cvss": 5.9, "epss": 0.30},
   {"id": "F-010", "asset": "WS01", "title": "Local admin reuse", "cvss": 7.2, "epss": 0.35}],
  "scenarios": [
-  {"id": "ransomware", "signals": {"techniques": ["T1204", "T1505", "T1068"]}, "name": "Ransomware", "owner": "CISO", "aro": [0.05, 0.15, 0.50], "sle": [150000, 400000, 1200000]},
-  {"id": "data_breach", "signals": {"techniques": ["T1041"]}, "name": "Customer data breach", "owner": "DPO", "aro": [0.03, 0.10, 0.30], "sle": [200000, 700000, 2500000]},
-  {"id": "credential_theft", "signals": {"techniques": ["T1003", "T1078"]}, "name": "Credential theft and abuse", "owner": "IT Security", "aro": [0.20, 0.60, 1.50], "sle": [20000, 80000, 300000]},
-  {"id": "phishing_bec", "signals": {"techniques": ["T1204"]}, "name": "Phishing / business email compromise", "owner": "Head of Ops", "aro": [0.30, 1.00, 3.00], "sle": [5000, 25000, 120000]},
-  {"id": "downtime", "signals": {"tactics": ["Impact"]}, "name": "Service outage", "owner": "CIO", "aro": [0.10, 0.40, 1.00], "sle": [10000, 40000, 150000]}],
+  {"id": "ransomware", "signals": {"techniques": ["T1204", "T1505", "T1068"]}, "name": "Ransomware", "owner": "CISO", "aro": [0.05, 0.15, 0.50], "sle": [140000, 1840000, 2470000], "sle_basis": "Cited (mixed sources, see S3-S5)"},
+  {"id": "data_breach", "signals": {"techniques": ["T1041"]}, "name": "Customer data breach", "owner": "DPO", "aro": [0.03, 0.10, 0.30], "sle": [4320000, 4990000, 6000000], "sle_basis": "Cited (IBM 2026, see S1-S2)"},
+  {"id": "credential_theft", "signals": {"techniques": ["T1003", "T1078"]}, "name": "Credential theft and abuse", "owner": "IT Security", "aro": [0.20, 0.60, 1.50], "sle": [20000, 80000, 300000], "sle_basis": "Declared (no direct benchmark)"},
+  {"id": "phishing_bec", "signals": {"techniques": ["T1204"]}, "name": "Phishing / business email compromise", "owner": "Head of Ops", "aro": [0.30, 1.00, 3.00], "sle": [20699, 123000, 500000], "sle_basis": "Cited low/mode (S6-S7), declared high"},
+  {"id": "downtime", "signals": {"tactics": ["Impact"]}, "name": "Service outage", "owner": "CIO", "aro": [0.10, 0.40, 1.00], "sle": [10000, 40000, 150000], "sle_basis": "Declared (no benchmark sourced)"}],
  "fixes": [
   {"id": "mfa", "name": "MFA rollout", "cost": 12000, "closes": ["F-003", "F-010"]},
   {"id": "patch_core", "name": "Patch DC01 and VPN01", "cost": 6000, "closes": ["F-001", "F-002", "F-009"]},

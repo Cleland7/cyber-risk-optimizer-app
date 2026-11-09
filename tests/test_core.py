@@ -97,3 +97,23 @@ def test_alerts_raise_declared_frequency():
     assert all(abs(a - b) < 1e-9 for a, b in zip(adj[0]["aro"], [0.15, 0.30, 0.60]))
     low = [{"agent": {"name": "H"}, "rule": {"level": 3, "mitre": {"id": ["T1003"], "tactic": []}}}] * 5
     assert signals.count_signals(low, sc, 7)["x"] == 0
+
+
+def test_every_scenario_labelled_and_sources_present():
+    import json
+    m = json.load(open(os.path.join(DATA, "model.json")))
+    assert all(sc.get("sle_basis") for sc in m["scenarios"])
+    assert len(m["sources"]) >= 5 and all(x.get("url") for x in m["sources"])
+
+
+def test_sle_scale_scales_exposure():
+    import json, tempfile, shutil
+    d = tempfile.mkdtemp()
+    for f in os.listdir(DATA):
+        shutil.copy(os.path.join(DATA, f), d)
+    base = pipeline.run(d, 0, seed=1, with_sensitivity=False)["exposure_before"]["mean"]
+    m = json.load(open(os.path.join(d, "model.json")))
+    m["assumptions"]["sle_scale"] = 0.5
+    json.dump(m, open(os.path.join(d, "model.json"), "w"))
+    half = pipeline.run(d, 0, seed=1, with_sensitivity=False)["exposure_before"]["mean"]
+    assert abs(half / base - 0.5) < 1e-9

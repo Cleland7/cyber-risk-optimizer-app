@@ -6,8 +6,9 @@ from croptimizer import pipeline
 DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sample-data")
 st.set_page_config(page_title="Cyber Risk Optimizer | Bernard Kartey Larbi", layout="wide")
 st.title("Budget-Constrained Cyber Risk Optimizer")
-st.warning("Demonstration on FICTIONAL sample data (Pinnacle Bank Ghana lab). Dollar ranges and fix effectiveness are "
-           "declared placeholders, not real findings or cited benchmarks. Method: docs/METHODOLOGY.md in the repository.")
+st.warning("Demonstration on a FICTIONAL organisation (Pinnacle Bank Ghana lab). Loss sizes (SLE) are anchored to cited "
+           "benchmarks where the table below says Cited; attack frequencies, fix costs and fix effectiveness are DECLARED "
+           "assumptions. Figures marked secondary still need checking against the original reports.")
 st.caption("Measured = from Wazuh alerts/findings. Declared = manual inputs. Loop: Measure, Quantify, Prioritize, Fix, Verify.")
 
 budget = st.slider("Security budget (USD)", 0, 150000, 50000, 1000)
@@ -27,3 +28,7 @@ st.subheader("Risk register"); st.dataframe(r["register"], use_container_width=T
 st.subheader("MITRE ATT&CK heatmap (by weighted alert volume)"); st.dataframe(r["heatmap"], use_container_width=True)
 st.subheader("Model vs CVSS-only ranking"); st.dataframe(r["cvss_comparison"], use_container_width=True)
 st.subheader("Verification"); st.dataframe(r["verification"], use_container_width=True)
+
+st.subheader("Where the loss figures come from")
+st.dataframe(r["scenario_basis"], use_container_width=True)
+st.dataframe(r["sources"], use_container_width=True)

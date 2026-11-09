@@ -48,7 +48,8 @@ def run(data_dir, budget, seed=None, with_sensitivity=True):
     vuln_before = scoring.enterprise_score([f["priority"] for f in scored], cfg["score_k"])
 
     # Quantify (FAIR-lite Monte Carlo, seeded)
-    adj, sig_before = signals.adjust_scenarios(m["scenarios"], before, cfg)
+    scaled = [{**sc, "sle": [x * cfg.get("sle_scale", 1.0) for x in sc["sle"]]} for sc in m["scenarios"]]
+    adj, sig_before = signals.adjust_scenarios(scaled, before, cfg)
     sig_after = signals.count_signals(after, m["scenarios"], cfg["signal_min_level"])
     samples = fair.simulate(adj, cfg["mc_iterations"], seed)
     ale_mean = {k: fair.mean(v) for k, v in samples.items()}
@@ -86,6 +87,10 @@ def run(data_dir, budget, seed=None, with_sensitivity=True):
         "signals": [{"scenario": sc["name"], "alerts_before": sig_before[sc["id"]]["alerts"],
                      "aro_multiplier": sig_before[sc["id"]]["aro_multiplier"],
                      "alerts_after_fix": sig_after[sc["id"]]} for sc in m["scenarios"]],
+        "sources": m.get("sources", []),
+        "scenario_basis": [{"scenario": sc["name"], "sle_low": sc["sle"][0], "sle_mode": sc["sle"][1],
+                            "sle_high": sc["sle"][2], "sle_basis": sc.get("sle_basis", "Declared"),
+                            "aro_basis": "Declared"} for sc in scaled],
         "top_findings": scored[:5], "cvss_comparison": scoring.cvss_only_comparison(scored),
         "heatmap": heatmap(before, m["assets"]),
         "register": register(adj, ale_mean, sol["fixes"], effect),

@@ -30,7 +30,7 @@ The sample data is fictional (Pinnacle Bank Ghana lab). Regenerate it with `pyth
 - Every metric is labelled **Measured** (Wazuh/public feeds) or **Declared** (manual input).
 - Dollar figures are ranges (90% interval), never single numbers.
 - "Technical control coverage" only; this tool does not claim framework compliance.
-- Placeholder SLE/ARO/effectiveness values must be replaced with cited sources before any results are published.
+- Loss sizes (SLE) are anchored to IBM 2026, Verizon 2026 DBIR, Sophos 2026 and FBI IC3 2025 where marked Cited; frequencies, fix costs and fix effectiveness are Declared. Secondary-sourced figures must be checked against the originals before publishing.
 
 ## Status
 Replay mode complete and tested. Alert evidence now drives scenario frequency. Live Wazuh collector, NVD/EPSS enrichment cache, and the recorded demo are the next milestones (see `docs/METHODOLOGY.md` section 9). Lab-only warning: see `SECURITY.md`.
