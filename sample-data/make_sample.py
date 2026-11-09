@@ -6,7 +6,7 @@ rng = random.Random(7)
 
 model = {
  "assumptions": {"version": "2026.11-a", "seed": 42, "mc_iterations": 10000,
-   "score_k": 120.0, "signal_min_level": 7, "alerts_for_max_signal": 10, "exposure_ref": 1500000, "sle_scale": 1.0, "weight_vuln": 0.6, "high_alert_level": 10, "alerts_for_max_multiplier": 5,
+   "score_k": 120.0, "usd_ghs": 11.66, "usd_ghs_note": "Bank of Ghana interbank rate, about GHS 11.66 per USD (buy 11.6542 / sell 11.6658, 5 Nov 2026). Update before use; the cedi has moved several percent within months.", "signal_min_level": 7, "alerts_for_max_signal": 10, "exposure_ref": 1500000, "sle_scale": 1.0, "weight_vuln": 0.6, "high_alert_level": 10, "alerts_for_max_multiplier": 5,
    "sle_aro_source": "SLE anchored to cited benchmarks where marked Cited; ARO (frequency) is DECLARED for every scenario (no public per-organisation source)",
    "effectiveness_source": "DECLARED analyst judgement; sensitivity-tested at +/-20%"},
 
@@ -39,11 +39,11 @@ model = {
   {"id": "F-009", "asset": "DC01", "title": "SMB signing not enforced", "cvss": 5.9, "epss": 0.30},
   {"id": "F-010", "asset": "WS01", "title": "Local admin reuse", "cvss": 7.2, "epss": 0.35}],
  "scenarios": [
-  {"id": "ransomware", "signals": {"techniques": ["T1204", "T1505", "T1068"]}, "name": "Ransomware", "owner": "CISO", "aro": [0.05, 0.15, 0.50], "sle": [140000, 1840000, 2470000], "sle_basis": "Cited (mixed sources, see S3-S5)"},
-  {"id": "data_breach", "signals": {"techniques": ["T1041"]}, "name": "Customer data breach", "owner": "DPO", "aro": [0.03, 0.10, 0.30], "sle": [4320000, 4990000, 6000000], "sle_basis": "Cited (IBM 2026, see S1-S2)"},
-  {"id": "credential_theft", "signals": {"techniques": ["T1003", "T1078"]}, "name": "Credential theft and abuse", "owner": "IT Security", "aro": [0.20, 0.60, 1.50], "sle": [20000, 80000, 300000], "sle_basis": "Declared (no direct benchmark)"},
-  {"id": "phishing_bec", "signals": {"techniques": ["T1204"]}, "name": "Phishing / business email compromise", "owner": "Head of Ops", "aro": [0.30, 1.00, 3.00], "sle": [20699, 123000, 500000], "sle_basis": "Cited low/mode (S6-S7), declared high"},
-  {"id": "downtime", "signals": {"tactics": ["Impact"]}, "name": "Service outage", "owner": "CIO", "aro": [0.10, 0.40, 1.00], "sle": [10000, 40000, 150000], "sle_basis": "Declared (no benchmark sourced)"}],
+  {"id": "ransomware", "triggers": ["personal_data", "cii_incident", "bank_incident"], "signals": {"techniques": ["T1204", "T1505", "T1068"]}, "name": "Ransomware", "owner": "CISO", "aro": [0.05, 0.15, 0.50], "sle": [140000, 1840000, 2470000], "sle_basis": "Cited (mixed sources, see S3-S5)"},
+  {"id": "data_breach", "triggers": ["personal_data", "cii_incident", "bank_incident"], "signals": {"techniques": ["T1041"]}, "name": "Customer data breach", "owner": "DPO", "aro": [0.03, 0.10, 0.30], "sle": [4320000, 4990000, 6000000], "sle_basis": "Cited (IBM 2026, see S1-S2)"},
+  {"id": "credential_theft", "triggers": ["cii_incident", "bank_incident"], "signals": {"techniques": ["T1003", "T1078"]}, "name": "Credential theft and abuse", "owner": "IT Security", "aro": [0.20, 0.60, 1.50], "sle": [20000, 80000, 300000], "sle_basis": "Declared (no direct benchmark)"},
+  {"id": "phishing_bec", "triggers": ["bank_incident"], "signals": {"techniques": ["T1204"]}, "name": "Phishing / business email compromise", "owner": "Head of Ops", "aro": [0.30, 1.00, 3.00], "sle": [20699, 123000, 500000], "sle_basis": "Cited low/mode (S6-S7), declared high"},
+  {"id": "downtime", "triggers": ["cii_incident", "bank_incident"], "signals": {"tactics": ["Impact"]}, "name": "Service outage", "owner": "CIO", "aro": [0.10, 0.40, 1.00], "sle": [10000, 40000, 150000], "sle_basis": "Declared (no benchmark sourced)"}],
  "fixes": [
   {"id": "mfa", "name": "MFA rollout", "cost": 12000, "closes": ["F-003", "F-010"]},
   {"id": "patch_core", "name": "Patch DC01 and VPN01", "cost": 6000, "closes": ["F-001", "F-002", "F-009"]},
@@ -65,6 +65,39 @@ model = {
   "pam": {"credential_theft": 0.45, "data_breach": 0.15, "ransomware": 0.10},
   "db_monitor": {"data_breach": 0.30}}
 }
+
+model["sources"] += [
+  {"id": "S9", "claim": "Act 843: notify the DPC and affected people as soon as reasonably practicable; the statute gives no fixed number of hours", "source": "Lex Mundi Ghana privacy guide; Templars Ghana data protection note", "url": "https://www.lexmundi.com/guides/data-privacy-guide/jurisdictions/africa/ghana", "status": "Secondary legal guides; read section 31 in the Act itself"},
+  {"id": "S10", "claim": "DPC says 2026 is a year of strict enforcement; section 56 sets fines and imprisonment", "source": "Ghana News Agency, 31 Jan 2026", "url": "https://gna.org.gh/2026/01/2026-will-be-a-year-of-enforcement-data-protection-commission-warns/", "status": "News report of a DPC statement"},
+  {"id": "S11", "claim": "Act 1038: owners of critical information infrastructure report incidents within 24 hours of detection; administrative penalty GHS 3,000 to 120,000", "source": "Business & Financial Times; Cyber Security Authority statements", "url": "https://thebftonline.com/?p=91141", "status": "Secondary; verify penalty amounts and section 39 in the Act"},
+  {"id": "S12", "claim": "CII Directive (1 Oct 2021): 24-hour incident reporting, 72-hour vulnerability disclosure, annual audit", "source": "Digital Policy Alert; BP & Associates note", "url": "https://digitalpolicyalert.org/change/12036", "status": "Secondary; read the Directive on csa.gov.gh"},
+  {"id": "S13", "claim": "Bank of Ghana Cyber and Information Security Directive (CISD) 2026: board cyber expertise, data localisation, FICSOC as sector CERT, wider coverage", "source": "News Ghana report of the March 2026 launch", "url": "https://www.newsghana.com.gh/bank-of-ghana-launches-final-cisd-2026-mandates-board-cyber-expertise-and-data-localisation/", "status": "News report; incident-reporting deadline NOT verified, read the Directive"},
+  {"id": "S14", "claim": "Cedi about GHS 11.66 per USD, Bank of Ghana interbank, 5 Nov 2026", "source": "Pulse Ghana reporting Bank of Ghana rates", "url": "https://www.pulse.com.gh/story/bog-exchange-rates-cedi-dollar-pound-euro-2026110509261529001", "status": "News report of the official rate"}]
+model["ghana_obligations"] = [
+  {"id": "dpa_breach_notice", "name": "Notify the regulator and affected people of a personal-data breach",
+   "regulator": "Data Protection Commission (DPC)", "law": "Data Protection Act 2012 (Act 843), s.31",
+   "deadline_hours": None, "deadline": "As soon as reasonably practicable (no fixed hours in the statute; 72 hours is common internal practice)",
+   "penalty": "Fines and/or imprisonment under s.56; DPC has said 2026 is a year of strict enforcement",
+   "applies_if": "Personal data was accessed or acquired without authority", "triggers": ["personal_data"], "sources": "S9, S10",
+   "status": "Secondary sources; verify s.31 and s.56 in the Act"},
+  {"id": "cii_incident_24h", "name": "Report the incident to the sector CERT and the Cyber Security Authority",
+   "regulator": "Cyber Security Authority (CSA) and sector CERT", "law": "Cybersecurity Act 2020 (Act 1038), s.39(1)(a); CII Directive 2021",
+   "deadline_hours": 24, "deadline": "Within 24 hours of detection",
+   "penalty": "Administrative penalty of GHS 3,000 to 120,000 as reported (verify)",
+   "applies_if": "The organisation is a designated critical information infrastructure owner (assumed for this bank lab)", "triggers": ["cii_incident"], "sources": "S11, S12",
+   "status": "Secondary sources; verify in the Act and Directive"},
+  {"id": "cii_vuln_72h", "name": "Disclose vulnerabilities found in audits and assessments",
+   "regulator": "Cyber Security Authority (CSA)", "law": "CII Directive 2021",
+   "deadline_hours": 72, "deadline": "Within 72 hours of identifying the vulnerability",
+   "penalty": "Not verified",
+   "applies_if": "Designated CII owner; relevant to every vulnerability finding in the register", "triggers": ["vulnerability_found"], "sources": "S12",
+   "status": "From a law-firm summary of the Directive; read the Directive wording"},
+  {"id": "bog_cisd_2026", "name": "Report to the Bank of Ghana sector response centre and meet CISD duties",
+   "regulator": "Bank of Ghana / FICSOC", "law": "Cyber and Information Security Directive (CISD) 2026",
+   "deadline_hours": None, "deadline": "Incident deadline not verified: read the CISD 2026 text. Monthly cyber reporting is mandatory.",
+   "penalty": "Sanctions for non-compliance with monthly reporting (minister's warning); amounts not verified",
+   "applies_if": "Licensed bank or other regulated financial institution", "triggers": ["bank_incident"], "sources": "S13",
+   "status": "News reports only; deadline unverified"}]
 
 def alert(host, rid, level, desc, tid, tactic):
     return {"timestamp": "2026-11-01T10:%02d:00Z" % rng.randint(0, 59), "agent": {"name": host},

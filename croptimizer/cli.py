@@ -42,6 +42,12 @@ def main():
     print("\nAlert evidence (Measured) scaling scenario frequency (Declared):")
     for g in r["signals"]:
         print(f"  {g['scenario']:<38} alerts {g['alerts_before']:>2} -> x{g['aro_multiplier']}  (after fix: {g['alerts_after_fix']} alerts)")
+    gh = r["ghana"]
+    print(f"\nIn cedis (GHS {gh['usd_ghs']}/USD): exposure GH₵{round(eb['mean'] * gh['usd_ghs']):,} -> GH₵{round(ea['mean'] * gh['usd_ghs']):,} a year")
+    print("Ghana obligations by scenario (shortest fixed deadline):")
+    for x in gh["scenario_map"]:
+        d = f"{x['shortest_deadline_hours']}h" if x["shortest_deadline_hours"] else "none verified"
+        print(f"  {x['scenario']:<38} {len(x['obligations'])} obligations, {d}")
     print("\nMITRE heatmap:", ", ".join(f"{h['tactic']}={h['color']}" for h in r["heatmap"]))
     print("\nVerify:")
     for v in r["verification"]:

@@ -26,6 +26,9 @@ The sample data is fictional (Pinnacle Bank Ghana lab). Regenerate it with `pyth
 | `docs/METHODOLOGY.md` | Formulas, assumptions, validation, limitations |
 | `lab/README.md` | Live-mode lab and Atomic Red Team guidance |
 
+## Ghana layer
+Cedi/dollar toggle with an editable exchange rate, and a regulatory impact analyzer that maps each incident to Ghanaian duties: Data Protection Act 2012 (Act 843), Cybersecurity Act 2020 (Act 1038) and the Bank of Ghana Cyber and Information Security Directive 2026, with regulator, deadline, reported penalty, source and verification status. Verify every legal row against the Act or Directive text before relying on it.
+
 ## Honesty rules
 - Every metric is labelled **Measured** (Wazuh/public feeds) or **Declared** (manual input).
 - Dollar figures are ranges (90% interval), never single numbers.

@@ -1,6 +1,6 @@
 import os, random, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from croptimizer import scoring, fair, optimizer, verify, pipeline, signals
+from croptimizer import scoring, fair, optimizer, verify, pipeline, signals, ghana
 
 DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "sample-data")
 
@@ -117,3 +117,18 @@ def test_sle_scale_scales_exposure():
     json.dump(m, open(os.path.join(d, "model.json"), "w"))
     half = pipeline.run(d, 0, seed=1, with_sensitivity=False)["exposure_before"]["mean"]
     assert abs(half / base - 0.5) < 1e-9
+
+
+def test_cedi_conversion():
+    assert ghana.to_ghs(100, 11.66) == 1166.0
+
+
+def test_ghana_mapping_deadlines_and_labels():
+    r = pipeline.run(DATA, 0, seed=1, with_sensitivity=False)
+    mp = {x["id"]: x for x in r["ghana"]["scenario_map"]}
+    assert mp["ransomware"]["shortest_deadline_hours"] == 24
+    assert mp["phishing_bec"]["shortest_deadline_hours"] is None
+    assert "dpa_breach_notice" in mp["data_breach"]["obligations"]
+    for o in r["ghana"]["obligations"]:
+        assert o["sources"] and o["status"] and o["law"] and o["regulator"]
+    assert r["ghana"]["usd_ghs"] > 1

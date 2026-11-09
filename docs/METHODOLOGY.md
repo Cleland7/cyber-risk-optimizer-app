@@ -40,6 +40,12 @@ Benchmarks describe average organisations in those studies, not any single bank.
 ### 4.1 Alert evidence drives frequency
 Each scenario lists the MITRE techniques/tactics that count as evidence for it (`signals` in `model.json`). Alerts at or above level 7 that match are counted, and the declared ARO range is scaled by `1 + min(1, alerts / 10)`, so observed activity can at most double the declared frequency. The level cut-off and the divisor of 10 are Declared assumptions. Exposure therefore rises when attacks are observed and the after-fix alert counts are reported beside the modelled drop as evidence. One alert can count toward more than one scenario (for example a macro-execution alert supports both ransomware and phishing); this is deliberate and noted as a limitation.
 
+### 4.2 Ghana layer (cedi view and regulatory impact)
+- **Currency:** all modelling is in US dollars. The cedi view multiplies by an editable rate (default about GHS 11.66 per USD, the Bank of Ghana interbank rate on 5 November 2026, source S14). The rate moves, so it is a Declared input with a note.
+- **Obligations:** `ghana_obligations` in `model.json` lists, for each duty, the regulator, the law and section, the deadline, the reported penalty, when it applies, a source id and a verification status. Scenarios carry `triggers` that link them to duties. Duties covered: Data Protection Act 2012 (Act 843) breach notification to the Data Protection Commission and affected people, as soon as reasonably practicable; Cybersecurity Act 2020 (Act 1038) 24-hour incident reporting for critical information infrastructure owners; the CII Directive 72-hour vulnerability disclosure; and the Bank of Ghana Cyber and Information Security Directive 2026.
+- **What is not verified:** the Bank of Ghana directive's incident-reporting deadline, the penalty amounts, and the exact wording of the CII Directive. These come from news and law-firm summaries and are marked in the status column. Whether the organisation is a designated CII owner is assumed for the lab.
+- **Scope:** the table supports analysis and does not give legal advice. It does not price regulatory penalties into the dollar exposure.
+
 ## 5. Overlap-aware optimizer
 Fixes overlap, so reductions are not additive. For scenario s and chosen set F:
 `residual_s = baseline_s x product over f in F of (1 - effectiveness[f][s])`.

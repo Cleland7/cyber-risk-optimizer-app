@@ -1,6 +1,6 @@
 """End-to-end run: Measure -> Quantify -> Prioritize -> Fix -> Verify."""
 import json, os, random
-from . import scoring, fair, optimizer, signals, verify as vf
+from . import scoring, fair, optimizer, signals, ghana, verify as vf
 
 
 def _load(d, name):
@@ -87,6 +87,10 @@ def run(data_dir, budget, seed=None, with_sensitivity=True):
         "signals": [{"scenario": sc["name"], "alerts_before": sig_before[sc["id"]]["alerts"],
                      "aro_multiplier": sig_before[sc["id"]]["aro_multiplier"],
                      "alerts_after_fix": sig_after[sc["id"]]} for sc in m["scenarios"]],
+        "ghana": {"usd_ghs": cfg.get("usd_ghs", 11.66), "fx_note": cfg.get("usd_ghs_note", ""),
+                  "obligations": m.get("ghana_obligations", []),
+                  "scenario_map": ghana.scenario_map(m["scenarios"], m.get("ghana_obligations", [])),
+                  "findings_count": len(m["findings"])},
         "sources": m.get("sources", []),
         "scenario_basis": [{"scenario": sc["name"], "sle_low": sc["sle"][0], "sle_mode": sc["sle"][1],
                             "sle_high": sc["sle"][2], "sle_basis": sc.get("sle_basis", "Declared"),
