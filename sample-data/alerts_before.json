@@ -1,0 +1,325 @@
+[
+ {
+  "timestamp": "2026-11-01T10:20:00Z",
+  "agent": {
+   "name": "DC01"
+  },
+  "rule": {
+   "id": "100100",
+   "level": 12,
+   "description": "LSASS memory access (credential dumping)",
+   "mitre": {
+    "id": [
+     "T1003.001"
+    ],
+    "tactic": [
+     "Credential Access"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:09:00Z",
+  "agent": {
+   "name": "DC01"
+  },
+  "rule": {
+   "id": "100100",
+   "level": 12,
+   "description": "LSASS memory access (credential dumping)",
+   "mitre": {
+    "id": [
+     "T1003.001"
+    ],
+    "tactic": [
+     "Credential Access"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:25:00Z",
+  "agent": {
+   "name": "DC01"
+  },
+  "rule": {
+   "id": "100100",
+   "level": 12,
+   "description": "LSASS memory access (credential dumping)",
+   "mitre": {
+    "id": [
+     "T1003.001"
+    ],
+    "tactic": [
+     "Credential Access"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:41:00Z",
+  "agent": {
+   "name": "DC01"
+  },
+  "rule": {
+   "id": "100100",
+   "level": 12,
+   "description": "LSASS memory access (credential dumping)",
+   "mitre": {
+    "id": [
+     "T1003.001"
+    ],
+    "tactic": [
+     "Credential Access"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:03:00Z",
+  "agent": {
+   "name": "DC01"
+  },
+  "rule": {
+   "id": "100110",
+   "level": 10,
+   "description": "Privilege escalation attempt",
+   "mitre": {
+    "id": [
+     "T1068"
+    ],
+    "tactic": [
+     "Privilege Escalation"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:04:00Z",
+  "agent": {
+   "name": "DC01"
+  },
+  "rule": {
+   "id": "100110",
+   "level": 10,
+   "description": "Privilege escalation attempt",
+   "mitre": {
+    "id": [
+     "T1068"
+    ],
+    "tactic": [
+     "Privilege Escalation"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:52:00Z",
+  "agent": {
+   "name": "VPN01"
+  },
+  "rule": {
+   "id": "100120",
+   "level": 10,
+   "description": "Repeated VPN auth failures then success",
+   "mitre": {
+    "id": [
+     "T1078"
+    ],
+    "tactic": [
+     "Initial Access"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:34:00Z",
+  "agent": {
+   "name": "VPN01"
+  },
+  "rule": {
+   "id": "100120",
+   "level": 10,
+   "description": "Repeated VPN auth failures then success",
+   "mitre": {
+    "id": [
+     "T1078"
+    ],
+    "tactic": [
+     "Initial Access"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:06:00Z",
+  "agent": {
+   "name": "VPN01"
+  },
+  "rule": {
+   "id": "100120",
+   "level": 10,
+   "description": "Repeated VPN auth failures then success",
+   "mitre": {
+    "id": [
+     "T1078"
+    ],
+    "tactic": [
+     "Initial Access"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:23:00Z",
+  "agent": {
+   "name": "WEB01"
+  },
+  "rule": {
+   "id": "100130",
+   "level": 8,
+   "description": "Web shell indicator",
+   "mitre": {
+    "id": [
+     "T1505.003"
+    ],
+    "tactic": [
+     "Persistence"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:37:00Z",
+  "agent": {
+   "name": "WEB01"
+  },
+  "rule": {
+   "id": "100130",
+   "level": 8,
+   "description": "Web shell indicator",
+   "mitre": {
+    "id": [
+     "T1505.003"
+    ],
+    "tactic": [
+     "Persistence"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:03:00Z",
+  "agent": {
+   "name": "WS01"
+  },
+  "rule": {
+   "id": "100140",
+   "level": 9,
+   "description": "Suspicious macro child process",
+   "mitre": {
+    "id": [
+     "T1204.002"
+    ],
+    "tactic": [
+     "Execution"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:58:00Z",
+  "agent": {
+   "name": "WS01"
+  },
+  "rule": {
+   "id": "100140",
+   "level": 9,
+   "description": "Suspicious macro child process",
+   "mitre": {
+    "id": [
+     "T1204.002"
+    ],
+    "tactic": [
+     "Execution"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:32:00Z",
+  "agent": {
+   "name": "WS01"
+  },
+  "rule": {
+   "id": "100140",
+   "level": 9,
+   "description": "Suspicious macro child process",
+   "mitre": {
+    "id": [
+     "T1204.002"
+    ],
+    "tactic": [
+     "Execution"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:13:00Z",
+  "agent": {
+   "name": "DB01"
+  },
+  "rule": {
+   "id": "100150",
+   "level": 7,
+   "description": "Bulk data read by service account",
+   "mitre": {
+    "id": [
+     "T1041"
+    ],
+    "tactic": [
+     "Exfiltration"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:02:00Z",
+  "agent": {
+   "name": "DB01"
+  },
+  "rule": {
+   "id": "100150",
+   "level": 7,
+   "description": "Bulk data read by service account",
+   "mitre": {
+    "id": [
+     "T1041"
+    ],
+    "tactic": [
+     "Exfiltration"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:05:00Z",
+  "agent": {
+   "name": "WS02"
+  },
+  "rule": {
+   "id": "100160",
+   "level": 5,
+   "description": "Browser spawned shell",
+   "mitre": {
+    "id": [
+     "T1059"
+    ],
+    "tactic": [
+     "Execution"
+    ]
+   }
+  }
+ }
+]

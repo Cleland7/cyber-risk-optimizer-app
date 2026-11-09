@@ -1,0 +1,40 @@
+[
+ {
+  "timestamp": "2026-11-01T10:27:00Z",
+  "agent": {
+   "name": "DC01"
+  },
+  "rule": {
+   "id": "100101",
+   "level": 12,
+   "description": "LSASS access BLOCKED by EDR",
+   "mitre": {
+    "id": [
+     "T1003.001"
+    ],
+    "tactic": [
+     "Credential Access"
+    ]
+   }
+  }
+ },
+ {
+  "timestamp": "2026-11-01T10:26:00Z",
+  "agent": {
+   "name": "WS01"
+  },
+  "rule": {
+   "id": "100140",
+   "level": 6,
+   "description": "Suspicious macro child process (blocked)",
+   "mitre": {
+    "id": [
+     "T1204.002"
+    ],
+    "tactic": [
+     "Execution"
+    ]
+   }
+  }
+ }
+]

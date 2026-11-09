@@ -1,0 +1,19 @@
+[
+ {
+  "test_id": "T1003.001",
+  "name": "Atomic Red Team: LSASS credential dumping",
+  "host": "DC01",
+  "expected_before": "detected",
+  "expected_after": "blocked",
+  "requires_any": [
+   "edr",
+   "pam"
+  ],
+  "detect_rules": [
+   "100100"
+  ],
+  "block_rules": [
+   "100101"
+  ]
+ }
+]

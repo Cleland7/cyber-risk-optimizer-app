@@ -1,0 +1,4 @@
+services:
+  replay:
+    build: .
+    ports: ["8501:8501"]
